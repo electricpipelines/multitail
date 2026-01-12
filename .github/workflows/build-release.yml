@@ -1,0 +1,65 @@
+name: Build and Release
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'version.txt'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Read version
+        id: version
+        shell: pwsh
+        run: |
+          $version = Get-Content version.txt -Raw
+          $version = $version.Trim()
+          echo "VERSION=$version" >> $env:GITHUB_OUTPUT
+          echo "Version: $version"
+
+      - name: Configure CMake
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build build --config Release
+
+      - name: Create release package
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path release
+          Copy-Item build/Release/multitail.exe release/
+          Compress-Archive -Path release/* -DestinationPath multitail-${{ steps.version.outputs.VERSION }}-windows-x64.zip
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.VERSION }}
+          name: Multitail v${{ steps.version.outputs.VERSION }}
+          body: |
+            ## Multitail v${{ steps.version.outputs.VERSION }}
+
+            Windows release of multitail - a multi-file tail viewer for Windows.
+
+            ### Installation
+            1. Download `multitail-${{ steps.version.outputs.VERSION }}-windows-x64.zip`
+            2. Extract to a folder of your choice
+            3. Optionally add the folder to your PATH
+
+            ### Usage
+            ```
+            multitail.exe file1.log file2.log [file3.log ...]
+            ```
+          files: |
+            multitail-${{ steps.version.outputs.VERSION }}-windows-x64.zip
+          draft: false
+          prerelease: false
