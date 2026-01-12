@@ -5,7 +5,6 @@ A Windows console application for monitoring multiple log files simultaneously i
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Platform](https://img.shields.io/badge/platform-Windows-lightgrey.svg)
 
-![Multitail Screenshot](screenshot.png)
 
 ## Overview
 
