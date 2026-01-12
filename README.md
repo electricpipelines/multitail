@@ -5,6 +5,8 @@ A Windows console application for monitoring multiple log files simultaneously i
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Platform](https://img.shields.io/badge/platform-Windows-lightgrey.svg)
 
+![Multitail Screenshot](screenshot.png)
+
 ## Overview
 
 Multitail allows you to watch multiple log files at once, displaying them in split panes within a single terminal window. Similar to the Unix `tail -f` command, but with support for viewing up to 8 files in parallel.
