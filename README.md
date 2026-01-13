@@ -1,6 +1,6 @@
-# Multitail
+# Multitail for Windows
 
-A Windows console application for monitoring multiple log files simultaneously in real-time.
+A lightweight Windows console application that works like `tail -f` for monitoring multiple log files simultaneously in real-time.
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Platform](https://img.shields.io/badge/platform-Windows-lightgrey.svg)
